@@ -86,6 +86,8 @@ const prevBtn = document.querySelector("#prevBtn");
 const nextBtn = document.querySelector("#nextBtn");
 const orientationBtn = document.querySelector("#orientationBtn");
 const resetBtn = document.querySelector("#resetBtn");
+const closeSettingsBtn = document.querySelector("#closeSettingsBtn");
+const settingsPanel = document.querySelector(".settings-panel");
 const durationInput = document.querySelector("#durationInput");
 const timingModeSelect = document.querySelector("#timingModeSelect");
 const fixedDurationField = document.querySelector("#fixedDurationField");
@@ -295,6 +297,10 @@ nextBtn.addEventListener("click", () => {
 orientationBtn.addEventListener("click", () => {
   isLandscapeView = !isLandscapeView;
   updateOrientationView();
+});
+
+closeSettingsBtn.addEventListener("click", () => {
+  settingsPanel.open = false;
 });
 
 resetBtn.addEventListener("click", () => {

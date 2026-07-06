@@ -268,6 +268,10 @@ body[data-theme="light"] .move.is-focus {
   min-width: 0;
 }
 
+.settings-close {
+  justify-self: stretch;
+}
+
 .field input {
   width: 82px;
   height: 34px;
@@ -510,21 +514,67 @@ body.is-landscape-view .settings-panel summary {
 }
 
 body.is-landscape-view .settings-grid {
-  right: 0;
-  width: min(760px, calc(100dvh - 12px));
-  max-height: calc(100dvw - 48px);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  position: fixed;
+  inset: 6px;
+  z-index: 40;
+  width: auto;
+  max-height: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: 6px;
+  padding: 8px;
+  overflow: auto;
+}
+
+body.is-landscape-view .settings-grid .field,
+body.is-landscape-view .settings-grid .toggle,
+body.is-landscape-view .settings-grid .screen-times {
+  min-height: 32px;
+  padding: 0 8px;
+  gap: 6px;
+  font-size: 12px;
+}
+
+body.is-landscape-view .settings-grid .field input,
+body.is-landscape-view .settings-grid .field select {
+  height: 26px;
+}
+
+body.is-landscape-view .settings-grid .toggle input {
+  width: 18px;
+  height: 18px;
+}
+
+body.is-landscape-view .settings-grid .ghost-button {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+body.is-landscape-view .settings-grid .screen-times summary {
+  min-height: 32px;
+  padding: 0 8px;
+  font-size: 12px;
 }
 
 body.is-landscape-view .screen-times-grid {
-  position: absolute;
-  left: 0;
-  right: auto;
-  bottom: calc(100% + 8px);
-  width: min(720px, calc(100dvh - 40px));
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-height: none;
-  overflow: visible;
+  position: static;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-height: 150px;
+  overflow: auto;
+  padding: 8px;
+}
+
+body.is-landscape-view .mini-field {
+  grid-template-columns: minmax(0, 1fr) 54px;
+  font-size: 11px;
+}
+
+body.is-landscape-view .mini-field input {
+  width: 54px;
+  height: 24px;
+  padding: 0 6px;
 }
 
 @media (max-width: 760px), (orientation: portrait) {
