@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>陈氏太极 74 式提示</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="light">
+    <main class="app-shell">
+      <section class="prompt-stage" aria-label="动作提示">
+        <header class="stage-top">
+          <div>
+            <p class="eyebrow">陈氏太极</p>
+            <h1>74 式训练提示</h1>
+          </div>
+          <div class="status-panel">
+            <span id="pageLabel">第 1 屏</span>
+            <span id="rangeLabel">1-15</span>
+          </div>
+        </header>
+
+        <div class="moves-wrap" id="movesWrap">
+          <ol class="moves-list" id="movesList"></ol>
+        </div>
+
+        <footer class="controls" aria-label="控制区">
+          <button class="icon-button" id="prevBtn" type="button" aria-label="上一屏" title="上一屏">‹</button>
+          <button class="primary-button" id="playBtn" type="button">开始</button>
+          <button class="icon-button" id="nextBtn" type="button" aria-label="下一屏" title="下一屏">›</button>
+
+          <label class="field">
+            <span>计时模式</span>
+            <select id="timingModeSelect">
+              <option value="fixed">固定时间</option>
+              <option value="custom">逐屏设置</option>
+            </select>
+          </label>
+
+          <label class="field" id="fixedDurationField">
+            <span>固定秒数</span>
+            <input id="durationInput" type="number" min="0.1" step="0.1" value="60" />
+          </label>
+
+          <details class="screen-times" id="screenTimesPanel">
+            <summary>逐屏秒数</summary>
+            <div class="screen-times-grid" id="screenTimesGrid"></div>
+          </details>
+
+          <label class="toggle">
+            <input id="halfStepToggle" type="checkbox" checked />
+            <span>半程显示前后衔接</span>
+          </label>
+
+          <label class="field">
+            <span>颜色</span>
+            <select id="themeSelect">
+              <option value="dark">深色</option>
+              <option value="light" selected>白底黑字</option>
+            </select>
+          </label>
+
+          <button class="ghost-button" id="resetBtn" type="button">回到起势</button>
+        </footer>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
