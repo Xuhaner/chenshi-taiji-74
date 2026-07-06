@@ -91,11 +91,13 @@ const fixedDurationField = document.querySelector("#fixedDurationField");
 const screenTimesPanel = document.querySelector("#screenTimesPanel");
 const screenTimesGrid = document.querySelector("#screenTimesGrid");
 const halfStepToggle = document.querySelector("#halfStepToggle");
+const wakeLockToggle = document.querySelector("#wakeLockToggle");
 const themeSelect = document.querySelector("#themeSelect");
 
 let screenIndex = 0;
 let isPlaying = false;
 let timerId = null;
+let wakeLock = null;
 const customDurations = new Map();
 
 function getValidSeconds(value, fallback = 60) {
@@ -221,17 +223,44 @@ function prev() {
   render();
 }
 
+async function requestWakeLock() {
+  if (!("wakeLock" in navigator) || !wakeLockToggle.checked || !isPlaying || wakeLock) {
+    return;
+  }
+
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release", () => {
+      wakeLock = null;
+    });
+  } catch {
+    wakeLock = null;
+  }
+}
+
+async function releaseWakeLock() {
+  if (!wakeLock) return;
+
+  try {
+    await wakeLock.release();
+  } catch {
+    wakeLock = null;
+  }
+}
+
 function stop() {
   isPlaying = false;
   playBtn.textContent = "开始";
   window.clearTimeout(timerId);
   timerId = null;
+  releaseWakeLock();
 }
 
 function play() {
   stop();
   isPlaying = true;
   playBtn.textContent = "暂停";
+  requestWakeLock();
   timerId = window.setTimeout(() => {
     next();
     if (isPlaying) play();
@@ -278,6 +307,14 @@ halfStepToggle.addEventListener("change", () => {
   if (isPlaying) play();
 });
 
+wakeLockToggle.addEventListener("change", () => {
+  if (wakeLockToggle.checked && isPlaying) {
+    requestWakeLock();
+  } else {
+    releaseWakeLock();
+  }
+});
+
 timingModeSelect.addEventListener("change", () => {
   render();
   if (isPlaying) play();
@@ -298,6 +335,12 @@ screenTimesGrid.addEventListener("change", updateCustomDuration);
 
 themeSelect.addEventListener("change", () => {
   document.body.dataset.theme = themeSelect.value;
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && isPlaying) {
+    requestWakeLock();
+  }
 });
 
 window.addEventListener("keydown", (event) => {
