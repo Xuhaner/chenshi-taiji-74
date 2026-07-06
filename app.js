@@ -84,6 +84,7 @@ const rangeLabel = document.querySelector("#rangeLabel");
 const playBtn = document.querySelector("#playBtn");
 const prevBtn = document.querySelector("#prevBtn");
 const nextBtn = document.querySelector("#nextBtn");
+const orientationBtn = document.querySelector("#orientationBtn");
 const resetBtn = document.querySelector("#resetBtn");
 const durationInput = document.querySelector("#durationInput");
 const timingModeSelect = document.querySelector("#timingModeSelect");
@@ -98,6 +99,7 @@ let screenIndex = 0;
 let isPlaying = false;
 let timerId = null;
 let wakeLock = null;
+let isLandscapeView = false;
 const customDurations = new Map();
 
 function getValidSeconds(value, fallback = 60) {
@@ -223,6 +225,11 @@ function prev() {
   render();
 }
 
+function updateOrientationView() {
+  document.body.classList.toggle("is-landscape-view", isLandscapeView);
+  orientationBtn.textContent = isLandscapeView ? "正常显示" : "横屏显示";
+}
+
 async function requestWakeLock() {
   if (!("wakeLock" in navigator) || !wakeLockToggle.checked || !isPlaying || wakeLock) {
     return;
@@ -283,6 +290,11 @@ prevBtn.addEventListener("click", () => {
 nextBtn.addEventListener("click", () => {
   next();
   if (isPlaying) play();
+});
+
+orientationBtn.addEventListener("click", () => {
+  isLandscapeView = !isLandscapeView;
+  updateOrientationView();
 });
 
 resetBtn.addEventListener("click", () => {
@@ -357,4 +369,5 @@ window.addEventListener("keydown", (event) => {
 });
 
 document.body.dataset.theme = themeSelect.value;
+updateOrientationView();
 render();

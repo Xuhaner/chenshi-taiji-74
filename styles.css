@@ -345,51 +345,113 @@ body[data-theme="light"] .mini-field input {
   color: var(--ink);
 }
 
+body.is-landscape-view {
+  width: 100svh;
+  height: 100svw;
+  min-height: 100svw;
+  overflow: hidden;
+  transform: rotate(90deg) translateY(-100%);
+  transform-origin: top left;
+}
+
+body.is-landscape-view .app-shell {
+  width: 100svh;
+  min-height: 100svw;
+  padding: 10px;
+}
+
+body.is-landscape-view .prompt-stage {
+  min-height: calc(100svw - 20px);
+  gap: clamp(8px, 1.2vw, 14px);
+  padding: clamp(10px, 1.6vw, 18px);
+}
+
+body.is-landscape-view .stage-top {
+  align-items: center;
+}
+
+body.is-landscape-view .status-panel {
+  min-width: 140px;
+  font-size: clamp(16px, 2vw, 22px);
+}
+
+body.is-landscape-view .moves-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+}
+
+body.is-landscape-view .move-name {
+  font-size: clamp(24px, 3.4vw, 54px);
+}
+
+body.is-landscape-view .controls {
+  justify-content: center;
+}
+
+body.is-landscape-view .primary-button,
+body.is-landscape-view .ghost-button,
+body.is-landscape-view .field,
+body.is-landscape-view .toggle,
+body.is-landscape-view .screen-times {
+  flex: 0 1 auto;
+}
+
+body.is-landscape-view .screen-times-grid {
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: calc(100% + 8px);
+  width: min(720px, calc(100svh - 40px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: none;
+  overflow: visible;
+}
+
 @media (max-width: 760px), (orientation: portrait) {
-  body {
+  body:not(.is-landscape-view) {
     overflow: auto;
   }
 
-  .app-shell {
+  body:not(.is-landscape-view) .app-shell {
     min-height: 100svh;
     padding: 10px;
   }
 
-  .prompt-stage {
+  body:not(.is-landscape-view) .prompt-stage {
     min-height: calc(100svh - 20px);
   }
 
-  .stage-top {
+  body:not(.is-landscape-view) .stage-top {
     align-items: flex-start;
   }
 
-  .status-panel {
+  body:not(.is-landscape-view) .status-panel {
     min-width: auto;
     font-size: 16px;
   }
 
-  .moves-list {
+  body:not(.is-landscape-view) .moves-list {
     grid-template-columns: 1fr;
     grid-auto-rows: minmax(58px, auto);
   }
 
-  .move-name {
+  body:not(.is-landscape-view) .move-name {
     font-size: clamp(28px, 10vw, 46px);
   }
 
-  .controls {
+  body:not(.is-landscape-view) .controls {
     justify-content: stretch;
   }
 
-  .primary-button,
-  .ghost-button,
-  .field,
-  .toggle,
-  .screen-times {
+  body:not(.is-landscape-view) .primary-button,
+  body:not(.is-landscape-view) .ghost-button,
+  body:not(.is-landscape-view) .field,
+  body:not(.is-landscape-view) .toggle,
+  body:not(.is-landscape-view) .screen-times {
     flex: 1 1 160px;
   }
 
-  .screen-times-grid {
+  body:not(.is-landscape-view) .screen-times-grid {
     position: fixed;
     left: 10px;
     right: 10px;
