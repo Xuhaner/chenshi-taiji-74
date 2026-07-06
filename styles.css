@@ -181,6 +181,7 @@ body[data-theme="light"] .move.is-focus {
   justify-content: center;
   flex-wrap: wrap;
   padding-top: 2px;
+  position: relative;
 }
 
 .icon-button,
@@ -224,6 +225,49 @@ body[data-theme="light"] .move.is-focus {
   font-size: 16px;
 }
 
+.settings-panel {
+  position: relative;
+}
+
+.settings-panel summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 18px;
+  list-style: none;
+}
+
+.settings-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-grid {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  width: min(760px, calc(100vw - 32px));
+  max-height: min(68vh, 520px);
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+}
+
+.settings-grid .ghost-button {
+  min-width: 0;
+}
+
 .field input {
   width: 82px;
   height: 34px;
@@ -250,7 +294,8 @@ body[data-theme="light"] .primary-button {
 }
 
 body[data-theme="light"] .field,
-body[data-theme="light"] .toggle {
+body[data-theme="light"] .toggle,
+body[data-theme="light"] .settings-panel summary {
   background: #ffffff;
 }
 
@@ -313,6 +358,16 @@ body[data-theme="light"] .field select {
   background: var(--panel-strong);
 }
 
+.settings-grid .screen-times {
+  grid-column: 1 / -1;
+}
+
+.settings-grid .screen-times-grid {
+  position: static;
+  width: 100%;
+  margin-top: 8px;
+}
+
 .mini-field {
   min-width: 0;
   display: grid;
@@ -339,6 +394,11 @@ body[data-theme="light"] .screen-times {
   background: #ffffff;
 }
 
+body[data-theme="light"] .settings-grid {
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+}
+
 body[data-theme="light"] .mini-field input {
   border-color: rgba(0, 0, 0, 0.22);
   background: #ffffff;
@@ -361,9 +421,9 @@ body.is-landscape-view .app-shell {
 }
 
 body.is-landscape-view .prompt-stage {
-  min-height: calc(100svw - 20px);
-  gap: clamp(8px, 1.2vw, 14px);
-  padding: clamp(10px, 1.6vw, 18px);
+  min-height: calc(100svw - 12px);
+  gap: 6px;
+  padding: 6px;
 }
 
 body.is-landscape-view .stage-top {
@@ -381,19 +441,49 @@ body.is-landscape-view .moves-list {
 }
 
 body.is-landscape-view .move-name {
-  font-size: clamp(24px, 3.4vw, 54px);
+  font-size: clamp(22px, 3.1vw, 46px);
 }
 
 body.is-landscape-view .controls {
   justify-content: center;
+  flex-wrap: nowrap;
+  gap: 6px;
 }
 
 body.is-landscape-view .primary-button,
 body.is-landscape-view .ghost-button,
+body.is-landscape-view .settings-panel summary,
 body.is-landscape-view .field,
 body.is-landscape-view .toggle,
 body.is-landscape-view .screen-times {
   flex: 0 1 auto;
+}
+
+body.is-landscape-view .icon-button,
+body.is-landscape-view .primary-button,
+body.is-landscape-view .ghost-button,
+body.is-landscape-view .settings-panel summary {
+  min-height: 38px;
+}
+
+body.is-landscape-view .icon-button {
+  width: 48px;
+  font-size: 32px;
+}
+
+body.is-landscape-view .primary-button,
+body.is-landscape-view .ghost-button,
+body.is-landscape-view .settings-panel summary {
+  padding: 0 12px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+body.is-landscape-view .settings-grid {
+  right: 0;
+  width: min(760px, calc(100svh - 20px));
+  max-height: calc(100svw - 76px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 body.is-landscape-view .screen-times-grid {
@@ -445,10 +535,22 @@ body.is-landscape-view .screen-times-grid {
 
   body:not(.is-landscape-view) .primary-button,
   body:not(.is-landscape-view) .ghost-button,
+  body:not(.is-landscape-view) .settings-panel,
+  body:not(.is-landscape-view) .settings-panel summary,
   body:not(.is-landscape-view) .field,
   body:not(.is-landscape-view) .toggle,
   body:not(.is-landscape-view) .screen-times {
     flex: 1 1 160px;
+  }
+
+  body:not(.is-landscape-view) .settings-grid {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 72px;
+    width: auto;
+    max-height: 68vh;
+    grid-template-columns: 1fr;
   }
 
   body:not(.is-landscape-view) .screen-times-grid {

@@ -30,43 +30,48 @@
           <button class="icon-button" id="nextBtn" type="button" aria-label="下一屏" title="下一屏">›</button>
           <button class="ghost-button" id="orientationBtn" type="button">正常显示</button>
 
-          <label class="field">
-            <span>计时模式</span>
-            <select id="timingModeSelect">
-              <option value="fixed">固定时间</option>
-              <option value="custom">逐屏设置</option>
-            </select>
-          </label>
+          <details class="settings-panel">
+            <summary>设置</summary>
+            <div class="settings-grid">
+              <label class="field">
+                <span>计时模式</span>
+                <select id="timingModeSelect">
+                  <option value="fixed">固定时间</option>
+                  <option value="custom">逐屏设置</option>
+                </select>
+              </label>
 
-          <label class="field" id="fixedDurationField">
-            <span>固定秒数</span>
-            <input id="durationInput" type="number" min="0.1" step="0.1" value="60" />
-          </label>
+              <label class="field" id="fixedDurationField">
+                <span>固定秒数</span>
+                <input id="durationInput" type="number" min="0.1" step="0.1" value="60" />
+              </label>
 
-          <details class="screen-times" id="screenTimesPanel">
-            <summary>逐屏秒数</summary>
-            <div class="screen-times-grid" id="screenTimesGrid"></div>
+              <details class="screen-times" id="screenTimesPanel">
+                <summary>逐屏秒数</summary>
+                <div class="screen-times-grid" id="screenTimesGrid"></div>
+              </details>
+
+              <label class="toggle">
+                <input id="halfStepToggle" type="checkbox" checked />
+                <span>半程显示前后衔接</span>
+              </label>
+
+              <label class="toggle">
+                <input id="wakeLockToggle" type="checkbox" checked />
+                <span>保持亮屏</span>
+              </label>
+
+              <label class="field">
+                <span>颜色</span>
+                <select id="themeSelect">
+                  <option value="dark">深色</option>
+                  <option value="light" selected>白底黑字</option>
+                </select>
+              </label>
+
+              <button class="ghost-button" id="resetBtn" type="button">回到起势</button>
+            </div>
           </details>
-
-          <label class="toggle">
-            <input id="halfStepToggle" type="checkbox" checked />
-            <span>半程显示前后衔接</span>
-          </label>
-
-          <label class="toggle">
-            <input id="wakeLockToggle" type="checkbox" checked />
-            <span>保持亮屏</span>
-          </label>
-
-          <label class="field">
-            <span>颜色</span>
-            <select id="themeSelect">
-              <option value="dark">深色</option>
-              <option value="light" selected>白底黑字</option>
-            </select>
-          </label>
-
-          <button class="ghost-button" id="resetBtn" type="button">回到起势</button>
         </footer>
       </section>
     </main>
