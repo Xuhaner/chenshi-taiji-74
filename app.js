@@ -99,7 +99,7 @@ let screenIndex = 0;
 let isPlaying = false;
 let timerId = null;
 let wakeLock = null;
-let isLandscapeView = false;
+let isLandscapeView = true;
 const customDurations = new Map();
 
 function getValidSeconds(value, fallback = 60) {
