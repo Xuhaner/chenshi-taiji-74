@@ -95,6 +95,7 @@ const screenTimesPanel = document.querySelector("#screenTimesPanel");
 const screenTimesGrid = document.querySelector("#screenTimesGrid");
 const halfStepToggle = document.querySelector("#halfStepToggle");
 const wakeLockToggle = document.querySelector("#wakeLockToggle");
+const soundToggle = document.querySelector("#soundToggle");
 const themeSelect = document.querySelector("#themeSelect");
 
 let screenIndex = 0;
@@ -102,6 +103,7 @@ let isPlaying = false;
 let timerId = null;
 let wakeLock = null;
 let isLandscapeView = true;
+let audioContext = null;
 const customDurations = new Map();
 
 function getValidSeconds(value, fallback = 60) {
@@ -227,6 +229,53 @@ function prev() {
   render();
 }
 
+function ensureAudioContext() {
+  if (!audioContext) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    audioContext = new AudioContextClass();
+  }
+
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+function playPageTurnSound() {
+  if (!soundToggle.checked) return;
+
+  const context = ensureAudioContext();
+  if (!context) return;
+
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  const start = context.currentTime;
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(880, start);
+  oscillator.frequency.exponentialRampToValueAtTime(660, start + 0.09);
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(0.16, start + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.12);
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(start);
+  oscillator.stop(start + 0.13);
+}
+
+function goNext() {
+  next();
+  playPageTurnSound();
+}
+
+function goPrev() {
+  prev();
+  playPageTurnSound();
+}
+
 function updateOrientationView() {
   document.body.classList.toggle("is-landscape-view", isLandscapeView);
   orientationBtn.textContent = isLandscapeView ? "正常显示" : "横屏显示";
@@ -270,8 +319,9 @@ function play() {
   isPlaying = true;
   playBtn.textContent = "暂停";
   requestWakeLock();
+  ensureAudioContext();
   timerId = window.setTimeout(() => {
-    next();
+    goNext();
     if (isPlaying) play();
   }, getCurrentDurationMs());
 }
@@ -285,12 +335,12 @@ playBtn.addEventListener("click", () => {
 });
 
 prevBtn.addEventListener("click", () => {
-  prev();
+  goPrev();
   if (isPlaying) play();
 });
 
 nextBtn.addEventListener("click", () => {
-  next();
+  goNext();
   if (isPlaying) play();
 });
 
@@ -364,12 +414,12 @@ document.addEventListener("visibilitychange", () => {
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight" || event.key === " ") {
     event.preventDefault();
-    next();
+    goNext();
     if (isPlaying) play();
   }
   if (event.key === "ArrowLeft") {
     event.preventDefault();
-    prev();
+    goPrev();
     if (isPlaying) play();
   }
 });
